@@ -1,0 +1,159 @@
+{
+  "name": "@ilovehash/sdk",
+  "version": "1.0.0",
+  "description": "Comprehensive hashing SDK with tree-shaking support",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./algorithms/*": {
+      "types": "./dist/algorithms/*.d.ts",
+      "import": "./dist/algorithms/*.mjs",
+      "require": "./dist/algorithms/*.js"
+    },
+    "./sha2": {
+      "types": "./dist/algorithms/sha2.d.ts",
+      "import": "./dist/algorithms/sha2.mjs",
+      "require": "./dist/algorithms/sha2.js"
+    },
+    "./legacy": {
+      "types": "./dist/algorithms/legacy.d.ts",
+      "import": "./dist/algorithms/legacy.mjs",
+      "require": "./dist/algorithms/legacy.js"
+    },
+    "./blake2": {
+      "types": "./dist/algorithms/blake2.d.ts",
+      "import": "./dist/algorithms/blake2.mjs",
+      "require": "./dist/algorithms/blake2.js"
+    },
+    "./hmac": {
+      "types": "./dist/algorithms/hmac.d.ts",
+      "import": "./dist/algorithms/hmac.mjs",
+      "require": "./dist/algorithms/hmac.js"
+    },
+    "./hkdf": {
+      "types": "./dist/algorithms/hkdf.d.ts",
+      "import": "./dist/algorithms/hkdf.mjs",
+      "require": "./dist/algorithms/hkdf.js"
+    },
+    "./pbkdf2": {
+      "types": "./dist/algorithms/pbkdf2.d.ts",
+      "import": "./dist/algorithms/pbkdf2.mjs",
+      "require": "./dist/algorithms/pbkdf2.js"
+    },
+    "./scrypt": {
+      "types": "./dist/algorithms/scrypt.d.ts",
+      "import": "./dist/algorithms/scrypt.mjs",
+      "require": "./dist/algorithms/scrypt.js"
+    },
+    "./blake1": {
+      "types": "./dist/algorithms/blake1.d.ts",
+      "import": "./dist/algorithms/blake1.mjs",
+      "require": "./dist/algorithms/blake1.js"
+    },
+    "./blake1-224": {
+      "types": "./dist/algorithms/blake1.d.ts",
+      "import": "./dist/algorithms/blake1.mjs",
+      "require": "./dist/algorithms/blake1.js"
+    },
+    "./blake1-256": {
+      "types": "./dist/algorithms/blake1.d.ts",
+      "import": "./dist/algorithms/blake1.mjs",
+      "require": "./dist/algorithms/blake1.js"
+    },
+    "./blake1-384": {
+      "types": "./dist/algorithms/blake1.d.ts",
+      "import": "./dist/algorithms/blake1.mjs",
+      "require": "./dist/algorithms/blake1.js"
+    },
+    "./blake1-512": {
+      "types": "./dist/algorithms/blake1.d.ts",
+      "import": "./dist/algorithms/blake1.mjs",
+      "require": "./dist/algorithms/blake1.js"
+    },
+    "./sha3-addons": {
+      "types": "./dist/algorithms/sha3-addons.d.ts",
+      "import": "./dist/algorithms/sha3-addons.mjs",
+      "require": "./dist/algorithms/sha3-addons.js"
+    },
+    "./cshake128": {
+      "types": "./dist/algorithms/sha3-addons.d.ts",
+      "import": "./dist/algorithms/sha3-addons.mjs",
+      "require": "./dist/algorithms/sha3-addons.js"
+    },
+    "./cshake256": {
+      "types": "./dist/algorithms/sha3-addons.d.ts",
+      "import": "./dist/algorithms/sha3-addons.mjs",
+      "require": "./dist/algorithms/sha3-addons.js"
+    },
+    "./kt128": {
+      "types": "./dist/algorithms/sha3-addons.d.ts",
+      "import": "./dist/algorithms/sha3-addons.mjs",
+      "require": "./dist/algorithms/sha3-addons.js"
+    },
+    "./kt256": {
+      "types": "./dist/algorithms/sha3-addons.d.ts",
+      "import": "./dist/algorithms/sha3-addons.mjs",
+      "require": "./dist/algorithms/sha3-addons.js"
+    },
+    "./crypto": {
+      "types": "./dist/crypto/index.d.ts",
+      "import": "./dist/crypto/index.mjs",
+      "require": "./dist/crypto/index.js"
+    },
+    "./checksum": {
+      "types": "./dist/checksum/index.d.ts",
+      "import": "./dist/checksum/index.mjs",
+      "require": "./dist/checksum/index.js"
+    },
+    "./non-crypto": {
+      "types": "./dist/non-crypto/index.d.ts",
+      "import": "./dist/non-crypto/index.mjs",
+      "require": "./dist/non-crypto/index.js"
+    },
+    "./similarity": {
+      "types": "./dist/similarity/index.d.ts",
+      "import": "./dist/similarity/index.mjs",
+      "require": "./dist/similarity/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "hash",
+    "crypto",
+    "checksum",
+    "sha",
+    "blake",
+    "crc",
+    "xxhash",
+    "tree-shaking",
+    "typescript"
+  ],
+  "author": "ilovehash.dev",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "vitest": "^1.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
+  "sideEffects": false
+}
