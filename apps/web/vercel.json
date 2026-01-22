@@ -1,5 +1,4 @@
 {
   "buildCommand": "cd ../.. && turbo build --filter=ilovehash-web",
-  "installCommand": "cd ../.. && pnpm install",
-  "rootDirectory": "apps/web"
+  "installCommand": "cd ../.. && pnpm install"
 }
