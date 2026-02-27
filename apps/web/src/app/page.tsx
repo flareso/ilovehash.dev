@@ -68,17 +68,12 @@ export default function HashesPageClient() {
 
       <motion.div
         className="my-8 sm:my-12"
-        initial={{ opacity: 0, y: 20 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 2.5 }}
       >
         <div className="space-y-6">
           {/* Search and Filter Controls */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-          >
+          <motion.div initial={false} animate={{ opacity: 1 }}>
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
               <SearchFilterControls
                 searchQuery={searchQuery}
@@ -94,20 +89,15 @@ export default function HashesPageClient() {
 
           {/* Results Count */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={false}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
             className="text-sm text-muted-foreground text-center"
           >
             Showing {filteredItems.length} of {allItems.length} hash algorithms
           </motion.div>
 
           {/* Hash Grid - Show all items */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
+          <motion.div initial={false} animate={{ opacity: 1, y: 0 }}>
             <ItemGrid
               items={filteredItems}
               bookmarkedItems={bookmarkedItems}

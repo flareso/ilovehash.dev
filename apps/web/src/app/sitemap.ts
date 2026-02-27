@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/`, lastModified },
     { url: `${BASE_URL}/hashes`, lastModified },
     { url: `${BASE_URL}/categories`, lastModified },
+    { url: `${BASE_URL}/compare`, lastModified },
   ];
 
   const categoryRoutes: MetadataRoute.Sitemap = getAllHashCategoryTitles().map(
