@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { hashCategorySlugToName, HASH_TOOLS, HASH_ALGORITHMS, type HashToolResource, type ParameterConfig } from "@/lib/hash-metadata";
+import { hashCategorySlugToName, HASH_TOOLS, HASH_ALGORITHMS, type HashToolResource } from "@/lib/hash-metadata";
 import { HASH_PAGE_CONTENT } from "@/lib/hash-content";
 import { categoryNameToSlug } from "@/lib/routing/slugs";
 import { computeHashClient, computeSimilarityComparison, type HashResult } from "@/lib/hash/compute.client";
@@ -196,7 +196,7 @@ export default function HashToolPageClient({ params }: ItemPageProps) {
     try {
       await navigator.clipboard.writeText(text);
       toast.success("Copied to clipboard");
-    } catch (error) {
+    } catch {
       toast.error("Failed to copy");
     }
   }, []);

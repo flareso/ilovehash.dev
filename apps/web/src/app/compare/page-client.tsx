@@ -7,7 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { HASH_TOOLS, HASH_ALGORITHMS } from "@/lib/hash-metadata";
-import { computeHashWithTiming, computeHashClient, type HashResult } from "@/lib/hash/compute.client";
+import { COMPARE_PAGE_CONTENT } from "@/lib/hash-content";
+import { computeHashClient, type HashResult } from "@/lib/hash/compute.client";
 import { Copy, Hash, Loader2, TrendingUp, TrendingDown, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { motion } from "motion/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -18,6 +19,14 @@ interface CompareResult extends HashResult {
   executionTime?: number;
   isComputing?: boolean;
 }
+
+type SettledCompareResult = {
+  status: "fulfilled" | "rejected";
+  value: {
+    algorithm: string;
+    result: CompareResult;
+  };
+};
 
 type SortBy = "speed" | "name" | "category";
 type SortOrder = "asc" | "desc";
@@ -113,7 +122,7 @@ export default function ComparePage() {
     setResults(newResults);
 
     // Compute all hashes with staggered timing to avoid interference
-    const computedResults: Array<{ status: 'fulfilled' | 'rejected', value?: any, reason?: any }> = [];
+    const computedResults: SettledCompareResult[] = [];
 
     for (let i = 0; i < selectedAlgorithms.length; i++) {
       const algoId = selectedAlgorithms[i];
@@ -141,7 +150,6 @@ export default function ComparePage() {
       } catch (error) {
         computedResults.push({
           status: 'rejected',
-          reason: error,
           value: {
             algorithm: algoId,
             result: {
@@ -172,11 +180,15 @@ export default function ComparePage() {
 
     setResults(finalResults);
     setIsComputing(false);
-  }, [selectedAlgorithms, debouncedInputText, outputFormat, iterations]);
+  }, [selectedAlgorithms, debouncedInputText, outputFormat, iterations, computeHashWithIterations]);
 
   // Auto-compute when input or format changes
   useEffect(() => {
-    computeAllHashes();
+    const timeout = window.setTimeout(() => {
+      void computeAllHashes();
+    }, 0);
+
+    return () => window.clearTimeout(timeout);
   }, [computeAllHashes]);
 
   // Sort results
@@ -226,7 +238,7 @@ export default function ComparePage() {
     try {
       await navigator.clipboard.writeText(text);
       toast.success("Copied to clipboard");
-    } catch (error) {
+    } catch {
       toast.error("Failed to copy");
     }
   }, []);
@@ -694,6 +706,59 @@ export default function ComparePage() {
             </CardContent>
           </Card>
         )}
+
+        <Card>
+          <CardHeader className="p-4">
+            <CardTitle className="text-base sm:text-lg">
+              How to Compare Hash Algorithms
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 pt-0 space-y-6">
+            <div className="space-y-2">
+              <h2 className="text-sm font-semibold">Short explanation</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {COMPARE_PAGE_CONTENT.summary}
+              </p>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-3">
+                <h2 className="text-sm font-semibold">When to use this page</h2>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  {COMPARE_PAGE_CONTENT.whenToUse.map((item) => (
+                    <li key={item} className="leading-relaxed">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <h2 className="text-sm font-semibold">When not to rely on it</h2>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  {COMPARE_PAGE_CONTENT.whenNotToUse.map((item) => (
+                    <li key={item} className="leading-relaxed">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h2 className="text-sm font-semibold">FAQ</h2>
+              <div className="space-y-3">
+                {COMPARE_PAGE_CONTENT.faqs.map((faq) => (
+                  <div key={faq.question} className="rounded-md border p-3">
+                    <h3 className="text-sm font-medium">{faq.question}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </motion.div>
   );

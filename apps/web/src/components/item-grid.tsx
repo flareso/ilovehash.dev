@@ -1,6 +1,7 @@
 import { type HashToolResource } from "@/lib/hash-metadata";
 import { HASH_ALGORITHMS } from "@/lib/hash-metadata";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { Button } from "@/components/ui/button";
 import ItemCard from "./item-card";
 
 interface ItemGridProps {
@@ -8,6 +9,9 @@ interface ItemGridProps {
   bookmarkedItems: string[];
   onBookmark: (id: string) => void;
   isBookmarkLoading?: boolean;
+  emptyTitle?: string;
+  emptyDescription?: string;
+  onReset?: () => void;
 }
 
 export function ItemGrid({
@@ -15,6 +19,9 @@ export function ItemGrid({
   bookmarkedItems,
   onBookmark,
   isBookmarkLoading = false,
+  emptyTitle = "No items found matching your criteria.",
+  emptyDescription = "Try adjusting your search or filter settings.",
+  onReset,
 }: ItemGridProps) {
   if (items.length === 0) {
     return (
@@ -45,11 +52,16 @@ export function ItemGrid({
           </svg>
         </motion.div>
         <p className="text-muted-foreground text-lg font-medium">
-          No items found matching your criteria.
+          {emptyTitle}
         </p>
         <p className="text-muted-foreground text-sm mt-1">
-          Try adjusting your search or filter settings.
+          {emptyDescription}
         </p>
+        {onReset && (
+          <Button type="button" variant="outline" className="mt-4" onClick={onReset}>
+            Reset search
+          </Button>
+        )}
       </motion.div>
     );
   }

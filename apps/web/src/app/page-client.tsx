@@ -7,8 +7,19 @@ import Hero from "@/components/sections/hero";
 import { useBookmarks } from "@/hooks/use-bookmark";
 import { useDebounce } from "@/hooks/use-debounce";
 import { HASH_TOOLS, type HashToolResource } from "@/lib/hash-metadata";
+import { searchHashTools } from "@/lib/hash-search";
 import { motion } from "motion/react";
 import { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+
+const QUICK_SEARCHES = [
+  "SHA-256",
+  "password",
+  "checksum",
+  "fast hash",
+  "legacy",
+  "non crypto",
+];
 
 export default function HashesPageClient() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -36,17 +47,9 @@ export default function HashesPageClient() {
   }, [allItems]);
 
   const filteredItems = useMemo<HashToolResource[]>(() => {
-    let filtered = [...allItems];
-
-    if (debouncedSearchQuery) {
-      const lowercaseQuery = debouncedSearchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (item) =>
-          item.name.toLowerCase().includes(lowercaseQuery) ||
-          item.description.toLowerCase().includes(lowercaseQuery) ||
-          item.category.toLowerCase().includes(lowercaseQuery),
-      );
-    }
+    let filtered = searchHashTools(allItems, debouncedSearchQuery).map(
+      (result) => result.item,
+    );
 
     if (selectedCategories.length > 0) {
       filtered = filtered.filter((item) =>
@@ -56,6 +59,14 @@ export default function HashesPageClient() {
 
     return filtered;
   }, [allItems, debouncedSearchQuery, selectedCategories]);
+
+  const hasActiveSearch =
+    searchQuery.trim().length > 0 || selectedCategories.length > 0;
+
+  const resetSearch = () => {
+    setSearchQuery("");
+    setSelectedCategories([]);
+  };
 
   return (
     <motion.div
@@ -74,7 +85,7 @@ export default function HashesPageClient() {
         <div className="space-y-6">
           {/* Search and Filter Controls */}
           <motion.div initial={false} animate={{ opacity: 1 }}>
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="space-y-3">
               <SearchFilterControls
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
@@ -84,6 +95,36 @@ export default function HashesPageClient() {
                 sortOption="name-asc"
                 onSortChange={() => {}} // Disabled for now since we have custom sorting
               />
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+                <span className="text-xs text-muted-foreground">
+                  Popular:
+                </span>
+                {QUICK_SEARCHES.map((query) => (
+                  <Button
+                    key={query}
+                    type="button"
+                    variant={
+                      searchQuery.toLowerCase() === query.toLowerCase()
+                        ? "default"
+                        : "outline"
+                    }
+                    size="sm"
+                    onClick={() => setSearchQuery(query)}
+                  >
+                    {query}
+                  </Button>
+                ))}
+                {hasActiveSearch && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={resetSearch}
+                  >
+                    Clear all
+                  </Button>
+                )}
+              </div>
             </div>
           </motion.div>
 
@@ -103,6 +144,9 @@ export default function HashesPageClient() {
               bookmarkedItems={bookmarkedItems}
               onBookmark={toggleBookmark}
               isBookmarkLoading={isBookmarkLoading}
+              emptyTitle="No hash algorithms found"
+              emptyDescription="Try a broader query like SHA, checksum, password, fast hash, or clear the category filter."
+              onReset={hasActiveSearch ? resetSearch : undefined}
             />
           </motion.div>
         </div>
@@ -112,4 +156,3 @@ export default function HashesPageClient() {
     </motion.div>
   );
 }
-
