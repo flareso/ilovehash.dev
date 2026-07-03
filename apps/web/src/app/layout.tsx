@@ -8,17 +8,19 @@ import type React from "react";
 import { Suspense } from "react";
 
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/seo";
 
 import "@/app/globals.css";
 import { Geist } from "next/font/google";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ilovehash.dev"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "ilovehash.dev - Hash Tools & Algorithms",
+    default: "Hash Generator and Algorithm Tools",
     template: `%s | ilovehash.dev`,
   },
-  description: "Compute, verify, and explore cryptographic hash functions. No data stored.",
+  description:
+    "Generate, verify, and compare cryptographic hashes, checksums, password hashes, and non-cryptographic hash functions locally in your browser.",
   keywords: [
     "hash",
     "cryptography",
@@ -35,10 +37,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ilovehash.dev/",
+    url: SITE_URL,
     siteName: "ilovehash.dev",
-    title: "ilovehash.dev - Hash Tools & Algorithms",
-    description: "Compute, verify, and explore cryptographic hash functions. No data stored.",
+    title: "Hash Generator and Algorithm Tools",
+    description:
+      "Generate, verify, and compare cryptographic hashes, checksums, password hashes, and non-cryptographic hash functions locally in your browser.",
     images: [
       {
         url: "/seo.png",
@@ -50,8 +53,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ilovehash.dev - Hash Tools & Algorithms",
-    description: "Compute, verify, and explore cryptographic hash functions. No data stored.",
+    title: "Hash Generator and Algorithm Tools",
+    description:
+      "Generate, verify, and compare cryptographic hashes, checksums, password hashes, and non-cryptographic hash functions locally in your browser.",
     images: ["/seo.png"],
   },
   icons: {
