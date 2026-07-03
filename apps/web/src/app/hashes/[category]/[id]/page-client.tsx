@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { hashCategorySlugToName, HASH_TOOLS, HASH_ALGORITHMS, type HashToolResource, type ParameterConfig } from "@/lib/hash-metadata";
+import { HASH_PAGE_CONTENT } from "@/lib/hash-content";
 import { categoryNameToSlug } from "@/lib/routing/slugs";
 import { computeHashClient, computeSimilarityComparison, type HashResult } from "@/lib/hash/compute.client";
 import { compareSimilarityHashes } from "@/lib/hash/similarity";
@@ -65,6 +66,7 @@ export default function HashToolPageClient({ params }: ItemPageProps) {
 
   const isSimilarity = uiMode === 'similarity';
   const showVerify = !isSimilarity;
+  const pageContent = HASH_PAGE_CONTENT[toolId];
 
   // Initialize algorithm parameters with defaults
   useEffect(() => {
@@ -618,6 +620,76 @@ export default function HashToolPageClient({ params }: ItemPageProps) {
                     )}
                   </div>
                 )}
+              </CardContent>
+            </Card>
+          )}
+
+          {pageContent && (
+            <Card>
+              <CardHeader className="p-4">
+                <CardTitle className="text-base sm:text-lg">
+                  About {tool.name}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-4 pt-0 space-y-6">
+                <div className="space-y-2">
+                  <h2 className="text-sm font-semibold">Short explanation</h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {pageContent.summary}
+                  </p>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2 rounded-md border p-3">
+                    <h2 className="text-sm font-semibold">Example input</h2>
+                    <code className="block rounded bg-muted p-2 text-xs break-all">
+                      {pageContent.exampleInput}
+                    </code>
+                  </div>
+                  <div className="space-y-2 rounded-md border p-3">
+                    <h2 className="text-sm font-semibold">Typical use</h2>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {pageContent.exampleUse}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-3">
+                    <h2 className="text-sm font-semibold">When to use it</h2>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      {pageContent.whenToUse.map((item) => (
+                        <li key={item} className="leading-relaxed">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="space-y-3">
+                    <h2 className="text-sm font-semibold">When not to use it</h2>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      {pageContent.whenNotToUse.map((item) => (
+                        <li key={item} className="leading-relaxed">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h2 className="text-sm font-semibold">FAQ</h2>
+                  <div className="space-y-3">
+                    {pageContent.faqs.map((faq) => (
+                      <div key={faq.question} className="rounded-md border p-3">
+                        <h3 className="text-sm font-medium">{faq.question}</h3>
+                        <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </CardContent>
             </Card>
           )}
